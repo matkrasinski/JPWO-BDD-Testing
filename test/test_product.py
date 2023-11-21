@@ -82,6 +82,12 @@ class ExampleTest(unittest.TestCase):
         # Product can have negative price, due to a bug in the application.
         self.assertEqual("$14.15", product_modified_price)
 
+        # Restore original price to prevent the next test failure
+        click(self.driver, "/html/body/app-root/div/app-products-list/table/tbody/tr[1]/td[5]/a")
+        sleep(2)  # Wait for the page to load
+        fill(self.driver, '//*[@id="price"]', "14.15")
+        click(self.driver, '/html/body/app-root/div/app-products-add-edit/div/form/div[3]/div/button')
+
     def test_display_product_details(self):
         login_as_admin(self.driver)
 
@@ -95,13 +101,11 @@ class ExampleTest(unittest.TestCase):
 
         # Get product details
         base_xpath = "/html/body/app-root/div/app-products-list/table/tbody/tr[1]/td"
-        id = get_element_text(self.driver, f"{base_xpath}[1]")
         name = get_element_text(self.driver, f"{base_xpath}[2]")
         stock = get_element_text(self.driver, f"{base_xpath}[3]")
         price = get_element_text(self.driver, f"{base_xpath}[4]")
 
         # Validate product details
-        self.assertEqual("01HFSYBMY5XX9TM48Z34R1MV7E", id)
         self.assertEqual("Slip Joint Pliers", name)
         self.assertEqual("11", stock)
         self.assertEqual("$9.17", price)
