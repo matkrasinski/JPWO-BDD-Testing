@@ -1,4 +1,3 @@
-import os
 import unittest
 from time import sleep
 
@@ -16,10 +15,6 @@ class ExampleTest(unittest.TestCase):
     def setUp(self):
         options = webdriver.ChromeOptions()
         options.add_experimental_option('excludeSwitches', ['enable-logging'])
-        if os.getenv("CI"):
-            options.add_argument("--headless")
-            options.add_argument("--no-sandbox")
-            options.add_argument("--disable-dev-shm-usage")
 
         self.driver = webdriver.Chrome(
             service=Service(ChromeDriverManager().install()),
