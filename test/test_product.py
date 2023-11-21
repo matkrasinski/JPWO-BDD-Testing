@@ -106,6 +106,26 @@ class ExampleTest(unittest.TestCase):
         self.assertEqual("11", stock)
         self.assertEqual("$9.17", price)
 
+    def test_display_empty_product_list(self):
+        login_as_admin(self.driver)
+
+        # Go to products page
+        click(self.driver, '//*[@id="admin-menu"]')
+        click(self.driver, "/html/body/app-root/app-header/nav/div/div/ul/li[4]/ul/li[4]/a")
+
+        # Search for product
+        fill(self.driver, "/html/body/app-root/div/app-products-list/form/div/input", "Non Existing Product")
+        click(self.driver, "/html/body/app-root/div/app-products-list/form/div/button[1]")
+
+        # Validate product details
+        self.assertFalse(
+            is_value_in_element_text(
+                self.driver,
+                "/html/body/app-root/div/app-products-list/table",
+                "Non Existing Product"
+            )
+        )
+
     def tearDown(self):
         self.driver.close()
 
