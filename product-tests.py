@@ -13,7 +13,13 @@ class ExampleTest(unittest.TestCase):
     BASE_URL = "https://practicesoftwaretesting.com"
 
     def setUp(self):
-        self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+        options = webdriver.ChromeOptions()
+        options.add_experimental_option('excludeSwitches', ['enable-logging'])
+
+        self.driver = webdriver.Chrome(
+            service=Service(ChromeDriverManager().install()),
+            options=options
+            )
         self.driver.maximize_window()
         self.wait = WebDriverWait(self.driver, 10)
 

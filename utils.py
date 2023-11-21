@@ -50,6 +50,11 @@ def click(driver, xpath):
     element.click()
 
 
+def click_by_css_selector(driver, css_selector):
+    element = WebDriverWait(driver, 10).until(ec.element_to_be_clickable((By.CSS_SELECTOR, css_selector)))
+    element.click()
+
+
 def fill(driver, xpath, value):
     element = WebDriverWait(driver, 10).until(ec.element_to_be_clickable((By.XPATH, xpath)))
     element.clear()
