@@ -69,3 +69,8 @@ def select_option(driver, xpath, index):
 def is_value_in_element_text(driver, table_xpath, value):
     element = WebDriverWait(driver, 10).until(ec.element_to_be_clickable((By.XPATH, table_xpath)))
     return value in element.text
+
+
+def get_element_text(driver, xpath) -> str:
+    element = WebDriverWait(driver, 10).until(ec.element_to_be_clickable((By.XPATH, xpath)))
+    return element.text
