@@ -6,7 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support import expected_conditions as ec
-from utils import login_as_admin, click, fill, select_option, is_value_in_element_text, click_by_css_selector
+from utils import WebDriverUtils
 
 import time 
 from datetime import datetime, timedelta
@@ -45,38 +45,23 @@ class RegistrationTest(unittest.TestCase):
 
     def test_user_registration(self):
         fake = Faker()
-
-        click_by_css_selector(driver=self.driver, css_selector='a[data-test="nav-sign-in"]')
-
-        click(driver=self.driver, xpath="//div[@class='col-lg-6 auth-form']//form//div[@class='input-group mb-3'][4]//p//a[1]")
-
-        fill(driver=self.driver, xpath='//*[@id="first_name"]', value=fake.first_name())
-
-        fill(driver=self.driver, xpath='//*[@id="last_name"]', value=fake.last_name())
-
-        fill(driver=self.driver, xpath='//*[@id="dob"]', value=self.generate_random_date_of_birth(fake))
-
-        fill(driver=self.driver, xpath='//*[@id="address"]', value=fake.address())
-
-        fill(driver=self.driver, xpath='//*[@id="postcode"]', value=fake.postcode())
-
-        fill(driver=self.driver, xpath='//*[@id="city"]',value=fake.city())
-
-        fill(driver=self.driver, xpath='//*[@id="state"]', value=fake.state())
-
-        select_option(driver=self.driver, xpath='//*[@id="country"]', index=42)
-
-        fill(driver=self.driver, xpath='//*[@id="phone"]', value=''.join(char for char in fake.phone_number() if char.isdigit()))
-
-        fill(driver=self.driver, xpath='//*[@id="email"]', value=fake.email())
-
-        fill(driver=self.driver, xpath='//*[@id="password"]', value=fake.password())
-
-        click(driver=self.driver, xpath='//div[@class="col-lg-8 auth-form"]//form//button[@class="btnSubmit mb-3"]')
+        WebDriverUtils(self.driver)\
+            .click_by_css_selector(css_selector='a[data-test="nav-sign-in"]')\
+            .click(xpath="//div[@class='col-lg-6 auth-form']//form//div[@class='input-group mb-3'][4]//p//a[1]")\
+            .fill(xpath='//*[@id="first_name"]', value=fake.first_name())\
+            .fill(xpath='//*[@id="last_name"]', value=fake.last_name())\
+            .fill(xpath='//*[@id="dob"]', value=self.generate_random_date_of_birth(fake))\
+            .fill(xpath='//*[@id="address"]', value=fake.address())\
+            .fill(xpath='//*[@id="postcode"]', value=fake.postcode())\
+            .fill(xpath='//*[@id="city"]',value=fake.city())\
+            .fill(xpath='//*[@id="state"]', value=fake.state())\
+            .select_option(xpath='//*[@id="country"]', index=42)\
+            .fill(xpath='//*[@id="phone"]', value=''.join(char for char in fake.phone_number() if char.isdigit()))\
+            .fill(xpath='//*[@id="email"]', value=fake.email())\
+            .fill(xpath='//*[@id="password"]', value=fake.password())\
+            .click(xpath='//div[@class="col-lg-8 auth-form"]//form//button[@class="btnSubmit mb-3"]')
 
         assert self.login_page_is_displayed(), "User is not on the login page after submission."
-
-
 
     def tearDown(self):
         time.sleep(10)
