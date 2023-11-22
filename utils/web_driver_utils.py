@@ -1,5 +1,6 @@
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.wait import WebDriverWait
@@ -72,6 +73,13 @@ class WebDriverUtils:
         element = WebDriverWait(self.driver, 10).until(ec.element_to_be_clickable((By.XPATH, xpath)))
         element.clear()
         element.send_keys(value)
+        return self
+
+    def fill_and_press_return(self, xpath, value):
+        element = WebDriverWait(self.driver, 10).until(ec.element_to_be_clickable((By.XPATH, xpath)))
+        element.clear()
+        element.send_keys(value)
+        element.send_keys(Keys.RETURN)
         return self
 
 
