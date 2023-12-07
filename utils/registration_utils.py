@@ -9,16 +9,6 @@ from time import sleep
 
 fake = Faker()
 
-def generate_random_date_of_birth(min_age=18, max_age=100):
-    random_age = Faker().random_int(min=min_age, max=max_age)
-    
-    birth_date = datetime.now() - timedelta(days=random_age * 365)
-    
-    formatted_birth_date = birth_date.strftime('%d.%m.%Y')
-    
-    return formatted_birth_date
-
-
 def go_to_login_page(driver):
     return WebDriverUtils(driver=driver)\
         .click_by_css_selector(css_selector='a[data-test="nav-sign-in"]')
